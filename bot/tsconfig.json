@@ -1,0 +1,45 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "outDir": "./dist",
+    "rootDir": "src",
+    "target": "ES2022",
+    "lib": ["ES2021", "DOM"],
+    "types": ["reflect-metadata"],
+    "esModuleInterop": true,
+
+    "sourceMap": true,
+    "removeComments": true,
+
+    "declaration": false,
+    "importHelpers": true,
+    "forceConsistentCasingInFileNames": true,
+
+    "downlevelIteration": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "alwaysStrict": true,
+
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+
+    "baseUrl": "./",
+    "paths": {
+      "@commands/*": ["src/commands/*"],
+      "@core/*": ["src/core/*"],
+      "@dependency/*": ["src/dependency/*"],
+      "@root/*": ["src/*"]
+    }
+  },
+  "exclude": ["node_modules"],
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  }
+}

@@ -1,0 +1,37 @@
+{
+    "name": "desmond",
+    "version": "1.0.0",
+    "description": "Mystic old wise man serving players of the Dungeons & Dragons.",
+    "author": "Juraj Trappl",
+    "license": "MIT",
+    "scripts": {
+        "build": "tsc -p .",
+        "start": "ts-node ./dist/index.js",
+        "dev": "ts-node ./src/index.ts"
+    },
+    "dependencies": {
+        "@types/node": "^18.6.2",
+        "axios": "^0.27.2",
+        "discord.js": "^13.6.0",
+        "dotenv": "^16.0.0",
+        "graphql": "^16.5.0",
+        "graphql-request": "^4.3.0",
+        "inversify": "^6.0.1",
+        "lex": "^1.7.9",
+        "lodash": "^4.17.21",
+        "moment": "^2.29.1",
+        "reflect-metadata": "^0.1.13",
+        "typescript": "^4.7.4",
+        "winston": "^3.6.0"
+    },
+    "devDependencies": {
+        "eslint": "^7.32.0 || ^8.2.0",
+        "eslint-config-airbnb-base": "^15.0.0",
+        "eslint-config-prettier": "^8.5.0",
+        "eslint-plugin-import": "^2.25.2",
+        "eslint-plugin-prettier": "^4.2.1",
+        "prettier": "^2.7.1",
+        "ts-node": "^10.9.1",
+        "tsconfig-paths": "^4.1.0"
+    }
+}
