@@ -1,0 +1,11 @@
+.env
+
+data
+
+bot/node_modules
+bot/dist
+bot/.env
+
+data_api/node_modules
+data_api/dist
+data_api/.env
