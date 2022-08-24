@@ -1,0 +1,116 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type GameDataGQL {
+  abilities: [Ability!]!
+  proficiencyBonusesPerLevel: [Int!]!
+  skills: [Skill!]!
+  skillsByAbilities: JSONObject!
+}
+
+enum Ability {
+  Strength
+  Dexterity
+  Constitution
+  Intelligence
+  Wisdom
+  Charisma
+}
+
+enum Skill {
+  Acrobatics
+  AnimalHandling
+  Arcana
+  Athletics
+  Deception
+  History
+  Insight
+  Intimidation
+  Investigation
+  Medicine
+  Nature
+  Perception
+  Performance
+  Persuasion
+  Religion
+  SleightOfHand
+  Stealth
+  Survival
+}
+
+"""
+The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSONObject
+
+type GuildGQL {
+  dmId: String!
+  guildId: String!
+  prefix: String!
+  playerIds: [String!]!
+}
+
+type ExtendedRollResultGQL {
+  expression: String!
+  rolls: [Int!]!
+}
+
+type TimeGQL {
+  current: String!
+  characterName: String!
+  guildMemberId: String!
+  location: String!
+}
+
+type Query {
+  getGameData: GameDataGQL!
+  getGuild(filter: GuildFilterInput!): GuildGQL!
+  rollAbilityCheck(filter: CharacterFilterInput!, input: RollSkillInput!): ExtendedRollResultGQL!
+  rollDice(input: RollDiceInput!): [Int!]!
+  rollSavingThrow(filter: CharacterFilterInput!, input: RollAbilityInput!): ExtendedRollResultGQL!
+  getTime(filter: CharacterFilterInput!): TimeGQL!
+}
+
+input GuildFilterInput {
+  guildId: String!
+}
+
+input CharacterFilterInput {
+  characterName: String
+  guildMemberId: String
+}
+
+input RollSkillInput {
+  advantage: Boolean!
+  disadvantage: Boolean!
+  inspiration: Boolean!
+  skill: Skill!
+}
+
+input RollDiceInput {
+  advantage: Boolean!
+  disadvantage: Boolean!
+  inspiration: Boolean!
+  expression: String!
+}
+
+input RollAbilityInput {
+  advantage: Boolean!
+  disadvantage: Boolean!
+  inspiration: Boolean!
+  ability: Ability!
+}
+
+type Mutation {
+  updateLocation(filter: CharacterFilterInput!, input: UpdateLocationInput!): TimeGQL!
+  updateTime(filter: CharacterFilterInput!, input: UpdateTimeInput!): TimeGQL!
+}
+
+input UpdateLocationInput {
+  newLocation: String!
+}
+
+input UpdateTimeInput {
+  militaryTimeOffset: String!
+}
