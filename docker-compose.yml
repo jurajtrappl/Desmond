@@ -1,0 +1,81 @@
+version: '3.7'
+
+services:
+
+  # lore_db:
+  #   container_name: desmond_lore_db
+  #   image: neo4j:latest
+  #   ports:
+  #     - $NEO4J_HTTP_LOCAL_PORT:$NEO4J_HTTP_DOCKER_PORT
+  #     - $NEO4J_BOLT_LOCAL_PORT:$NEO4J_BOLT_DOCKER_PORT
+  #   environment:
+  #     - NEO4J_AUTH=neo4j/$LORE_DB_ADMIN_PASSWORD
+  #   volumes:
+  #     - ./data/neo4j/data:/data
+  #     - ./data/neo4j/logs:/logs
+  #   networks:
+  #     - desmond_network
+
+  data_db:
+    image: mongo:latest
+    container_name: desmond_data_db
+    restart: unless-stopped
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=$DATA_DB_INIT_USERNAME
+      - MONGO_INITDB_ROOT_PASSWORD=$DATA_DB_INIT_PASSWORD
+    ports:
+      - $DATA_DB_LOCAL_PORT:$DATA_DB_DOCKER_PORT
+    volumes:
+      - ./data/mongo/data:/data/db
+    networks:
+      - desmond_network
+
+  data_db_web_interface:
+    image: mongo-express
+    container_name: desmond_data_db_web_interface
+    restart: always
+    ports:
+      - $DATA_DB_WEB_INTERFACE_LOCAL_PORT:$DATA_DB_WEB_INTERFACE_DOCKER_PORT
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: $DATA_DB_INIT_USERNAME
+      ME_CONFIG_MONGODB_ADMINPASSWORD: $DATA_DB_INIT_PASSWORD
+      ME_CONFIG_MONGODB_URL: mongodb://$DATA_DB_INIT_USERNAME:$DATA_DB_INIT_PASSWORD@data_db:$DATA_DB_DOCKER_PORT/
+    depends_on:
+      - data_db
+    networks:
+      - desmond_network
+
+  data_api:
+    container_name: desmond_data_api
+    restart: unless-stopped
+    build:
+      context: ./data_api
+      dockerfile: Dockerfile
+    ports:
+      - $DATA_API_LOCAL_PORT:$DATA_API_DOCKER_PORT
+    volumes:
+      - ./data_api:/data_api
+      - /data_api/node_modules
+    depends_on:
+      - data_db
+    networks:
+      - desmond_network
+
+  bot:
+    container_name: desmond_bot
+    restart: always
+    build:
+      context: ./bot
+      dockerfile: Dockerfile
+    volumes:
+      - ./bot:/bot
+      - /bot/node_modules
+    depends_on:
+      - data_api
+    networks:
+      - desmond_network
+
+networks:
+  desmond_network:
+    driver: bridge
+    name: desmond_network
